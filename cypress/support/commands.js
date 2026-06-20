@@ -38,3 +38,28 @@ Cypress.Commands.add("ValidarCamposObligatorios", () => {
         .and("contain", "Subject may not be blank")
         .and("contain", "Message may not be blank");
 });
+
+Cypress.Commands.add('hacerReserva', (checkinOffset = 0, checkoutOffset = 1) => {
+    const formatDate = (date) => date.toISOString().split('T')[0]
+
+    const today = new Date()
+
+    const checkin = new Date(today)
+    checkin.setDate(today.getDate() + checkinOffset)
+
+    const checkout = new Date(today)
+    checkout.setDate(today.getDate() + checkoutOffset)
+
+    return {
+        checkin: formatDate(checkin),
+        checkout: formatDate(checkout)
+    }
+})
+
+Cypress.Commands.add('datosForm', (Name, LastName, email, phone) => { // deberíamos revisar este comando con el "EnviarDatosValidos" me parecen que hacen lo mismo
+    cy.get('[placeholder="Firstname"]').type('Juan')
+    cy.get('[placeholder="Lastname"]').type('Perez')
+    cy.get('[placeholder="Email"]').type(`mail${Date.now()}@gmail.com`)
+    cy.get('[placeholder="Phone"]').type('01164666830')
+    cy.get('button.btn-primary.w-100').click()
+})

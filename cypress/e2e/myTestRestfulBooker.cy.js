@@ -12,7 +12,7 @@ describe("Test Shady Meadows", () => {
     })
 
     // Caso de Prueba ID03
-    it('Seleccionar habitacion y abrir el formulario de reserva', () => {
+    it.skip('Seleccionar habitacion y abrir el formulario de reserva', () => {
         cy.hacerReserva().then(({ checkin, checkout }) => {
             cy.get('a[href="#booking"]').click()
             cy.get(`a[href*="/reservation/1?checkin=${checkin}&checkout=${checkout}"]`).click()
@@ -21,7 +21,7 @@ describe("Test Shady Meadows", () => {
         })
     })
 
-    // Caso de Prueba ID04 y 05
+    // Caso de Prueba ID04
     it.skip('Completar el formulario con datos válidos', () => {
         cy.hacerReserva().then(({ checkin, checkout }) => { // comando declarado para no tener problema con las fechas de reserva
             cy.get('a[href="#booking"]').click()
@@ -33,12 +33,12 @@ describe("Test Shady Meadows", () => {
             //cy.get('[placeholder="Email"]').type(`mail${Date.now()}@gmail.com`)
             //cy.get('[placeholder="Phone"]').type('01164666830')
             cy.datosForm('Juan', 'Perez', `mail${Date.now()}@gmail.com`, '01164666830')
-            cy.get('button.btn-primary.w-100').click()
+                //cy.get('button.btn-primary.w-100').click()
         })
     })
 
-    // Caso de Prueba ID06
-    it.skip('Intentar enviar el formulario con campos vacios ', () => {
+    // Caso de Prueba ID05
+    it('Intentar enviar el formulario con campos vacios ', () => {
         cy.hacerReserva().then(({ checkin, checkout }) => {
             cy.get('a[href="#booking"]').click()
             cy.get(`a[href*="/reservation/1?checkin=${checkin}&checkout=${checkout}"]`).click()
@@ -49,55 +49,70 @@ describe("Test Shady Meadows", () => {
 
     })
 
-    // Caso de Prueba ID07
-    it.skip('Ingresar email invalido', () => {
+    // Caso de Prueba ID06
+    it('Ingresar email invalido', () => {
         cy.hacerReserva().then(({ checkin, checkout }) => {
             cy.get('a[href="#booking"]').click()
             cy.get(`a[href*="/reservation/2?checkin=${checkin}&checkout=${checkout}"]`).click()
             cy.get('#doReservation').click()
 
             cy.datosForm('Juan', 'Perez', `mailgmail.com`, '01164666830')
-            cy.get('button.btn-primary.w-100').click()
         })
     })
 
-    // Caso de Prueba ID08
-    it.skip('Seleccionar fecha de salida anterior a entrada', () => {
+    // Caso de Prueba ID07
+    it('Seleccionar fecha de salida anterior a entrada', () => {
         cy.hacerReserva(2, 1).then(({ checkin, checkout }) => {
             cy.get('a[href="#booking"]').click()
             cy.get(`a[href*="/reservation/2"]`).click()
             cy.get('#doReservation').click()
 
             cy.datosForm('Juan', 'Perez', `mail${Date.now()}@gmail.com`, '01164666830')
-            cy.get('button.btn-primary.w-100').click()
         })
     })
 
-    //ID 12- Reservar habitacion "Single" y comprobación en Admin
-    it('Reservar habitacion "Single" y comprobación en Admin', () => {
-            cy.hacerReserva().then(({ checkin, checkout }) => { // comando declarado para no tener problema con las fechas de reserva
-                cy.get('a[href="#booking"]').click()
-                cy.get(`a[href*="/reservation/1?checkin=${checkin}&checkout=${checkout}"]`).click()
-                cy.get('#doReservation').click()
+    // Caso de Prueba ID09
+    it('Verificar que no se realizó ninguna reserva al intentar enviar el formulario vacio ', () => {
+        cy.hacerReserva().then(({ checkin, checkout }) => {
+            cy.get('a[href="#booking"]').click()
+            cy.get(`a[href*="/reservation/1?checkin=${checkin}&checkout=${checkout}"]`).click()
+            cy.get('#doReservation').click()
 
-                cy.datosForm('Juan', 'Perez', `mail${Date.now()}@gmail.com`, '01164666830')
-                cy.get('button.btn-primary.w-100').click()
+            cy.get('button.btn-primary.w-100').click()
 
-            })
+            cy.get('a[href*="/admin"]').first().click()
+            cy.login('admin', 'password')
         })
-        //Item 18
-        //   it("login with invalid credentials", () => {
-        //     cy.get(".nav-link").eq(5).click();
-        //     cy.login("admin", "password");
-        //   });
 
-    //Item 19
-    //   it("login with invalid credentials", () => {
-    //     cy.get(".nav-link").eq(5).click();
-    //     cy.ValidarDatosVaciosLogin();
-    //   });
+    })
 
-    //Item 15
+    //ID 11- Reservar habitacion "Single" y comprobación en Admin
+    it('Reservar habitacion "Single" y comprobación en Admin', () => {
+        cy.hacerReserva().then(({ checkin, checkout }) => { // comando declarado para no tener problema con las fechas de reserva
+            cy.get('a[href="#booking"]').click()
+            cy.get(`a[href*="/reservation/1?checkin=${checkin}&checkout=${checkout}"]`).click()
+            cy.get('#doReservation').click()
+
+            cy.datosForm('Juan', 'Perez', `mail${Date.now()}@gmail.com`, '01164666830')
+
+            cy.get('a[href*="/admin"]').first().click()
+            cy.login('admin', 'password')
+        })
+    })
+
+    //Item 18- Login con credenciales válidas
+    it("login with valid credentials", () => {
+        cy.get(".nav-link").eq(5).click();
+        cy.login("admin", "password");
+    })
+
+    //Item 19- 
+    it("login with invalid credentials", () => {
+        cy.get(".nav-link").eq(5).click();
+        cy.ValidarDatosVaciosLogin();
+    })
+
+    //Item 15 
     //   it("Acceder a amenities", () => {
     //     cy.get(".nav-link").eq(2).click();
     //   });
