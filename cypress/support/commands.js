@@ -17,6 +17,7 @@ Cypress.Commands.add(
     "EnviarDatosValidos",
     (name, email, phone, subject, mensaje) => {
         cy.get("#name").type(name);
+        //cy.get('#lastname').type(lastname)
         cy.get("#email").type(email);
         cy.get("#phone").type(phone);
         cy.get("#subject").type(subject);
@@ -56,10 +57,15 @@ Cypress.Commands.add('hacerReserva', (checkinOffset = 0, checkoutOffset = 1) => 
     }
 })
 
-Cypress.Commands.add('datosForm', (Name, LastName, email, phone) => { // deberíamos revisar este comando con el "EnviarDatosValidos" me parecen que hacen lo mismo
-    cy.get('[placeholder="Firstname"]').type('Juan')
-    cy.get('[placeholder="Lastname"]').type('Perez')
+Cypress.Commands.add('datosForm', (Name, LastName, email, phone) => {
+    cy.get('[placeholder="Firstname"]').type('firstname')
+    cy.get('[placeholder="Lastname"]').type('lastname')
     cy.get('[placeholder="Email"]').type(`mail${Date.now()}@gmail.com`)
-    cy.get('[placeholder="Phone"]').type('01164666830')
+    cy.get('[placeholder="Phone"]').type('phone')
     cy.get('button.btn-primary.w-100').click()
+})
+
+Cypress.Commands.add('reservar', () => {
+    cy.url().should('include', '/reservation/')
+    cy.get('#doReservation').click()
 })

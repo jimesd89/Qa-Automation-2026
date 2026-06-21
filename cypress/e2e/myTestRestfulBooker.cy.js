@@ -12,21 +12,23 @@ describe("Test Shady Meadows", () => {
     })
 
     // Caso de Prueba ID03
-    it.skip('Seleccionar habitacion y abrir el formulario de reserva', () => {
+    it('Seleccionar habitacion y abrir el formulario de reserva', () => {
         cy.hacerReserva().then(({ checkin, checkout }) => {
             cy.get('a[href="#booking"]').click()
             cy.get(`a[href*="/reservation/1?checkin=${checkin}&checkout=${checkout}"]`).click()
-            cy.get('#doReservation').click()
+                // cy.url().should('include', '/reservation/')
+                // cy.get('#doReservation').click()
+            cy.reservar()
 
         })
     })
 
     // Caso de Prueba ID04
-    it.skip('Completar el formulario con datos válidos', () => {
+    it('Completar el formulario con datos válidos', () => {
         cy.hacerReserva().then(({ checkin, checkout }) => { // comando declarado para no tener problema con las fechas de reserva
             cy.get('a[href="#booking"]').click()
             cy.get(`a[href*="/reservation/1?checkin=${checkin}&checkout=${checkout}"]`).click()
-            cy.get('#doReservation').click()
+            cy.reservar()
 
             //cy.get('[placeholder="Firstname"]').type('Juan')
             //cy.get('[placeholder="Lastname"]').type('Perez')
@@ -42,7 +44,7 @@ describe("Test Shady Meadows", () => {
         cy.hacerReserva().then(({ checkin, checkout }) => {
             cy.get('a[href="#booking"]').click()
             cy.get(`a[href*="/reservation/1?checkin=${checkin}&checkout=${checkout}"]`).click()
-            cy.get('#doReservation').click()
+            cy.reservar()
 
             cy.get('button.btn-primary.w-100').click()
         })
@@ -51,10 +53,10 @@ describe("Test Shady Meadows", () => {
 
     // Caso de Prueba ID06
     it('Ingresar email invalido', () => {
-        cy.hacerReserva().then(({ checkin, checkout }) => {
+        cy.hacerReserva(0, 2).then(({ checkin, checkout }) => {
             cy.get('a[href="#booking"]').click()
-            cy.get(`a[href*="/reservation/2?checkin=${checkin}&checkout=${checkout}"]`).click()
-            cy.get('#doReservation').click()
+            cy.get(`a[href*="/reservation/1?checkin=${checkin}&checkout=${checkout}"]`).click()
+            cy.reservar()
 
             cy.datosForm('Juan', 'Perez', `mailgmail.com`, '01164666830')
         })
@@ -65,7 +67,7 @@ describe("Test Shady Meadows", () => {
         cy.hacerReserva(2, 1).then(({ checkin, checkout }) => {
             cy.get('a[href="#booking"]').click()
             cy.get(`a[href*="/reservation/2"]`).click()
-            cy.get('#doReservation').click()
+            cy.reservar()
 
             cy.datosForm('Juan', 'Perez', `mail${Date.now()}@gmail.com`, '01164666830')
         })
@@ -76,8 +78,7 @@ describe("Test Shady Meadows", () => {
         cy.hacerReserva().then(({ checkin, checkout }) => {
             cy.get('a[href="#booking"]').click()
             cy.get(`a[href*="/reservation/1?checkin=${checkin}&checkout=${checkout}"]`).click()
-            cy.get('#doReservation').click()
-
+            cy.reservar()
             cy.get('button.btn-primary.w-100').click()
 
             cy.get('a[href*="/admin"]').first().click()
@@ -91,7 +92,7 @@ describe("Test Shady Meadows", () => {
         cy.hacerReserva().then(({ checkin, checkout }) => { // comando declarado para no tener problema con las fechas de reserva
             cy.get('a[href="#booking"]').click()
             cy.get(`a[href*="/reservation/1?checkin=${checkin}&checkout=${checkout}"]`).click()
-            cy.get('#doReservation').click()
+            cy.reservar()
 
             cy.datosForm('Juan', 'Perez', `mail${Date.now()}@gmail.com`, '01164666830')
 
@@ -102,14 +103,14 @@ describe("Test Shady Meadows", () => {
 
     //Item 18- Login con credenciales válidas
     it("login with valid credentials", () => {
-        cy.get(".nav-link").eq(5).click();
-        cy.login("admin", "password");
+        cy.get(".nav-link").eq(5).click()
+        cy.login("admin", "password")
     })
 
     //Item 19- 
     it("login with invalid credentials", () => {
-        cy.get(".nav-link").eq(5).click();
-        cy.ValidarDatosVaciosLogin();
+        cy.get(".nav-link").eq(5).click()
+        cy.ValidarDatosVaciosLogin()
     })
 
     //Item 15 
@@ -118,19 +119,20 @@ describe("Test Shady Meadows", () => {
     //   });
 
     //Item16
-    //   it("Acceder a contact us", () => {
-    //     cy.get(".nav-link").eq(4).click();
-    //     cy.EnviarDatosValidos(
-    //       "Juan",
-    //       "juan@example.com",
-    //       "12345678909",
-    //       "Consulta",
-    //       "Hola, tengo una consulta sobre las habitaciones disponibles.",
-    //     );
-    //   });
+    it("Acceder a contact us", () => {
+        cy.get(".nav-link").eq(4).click();
+        cy.EnviarDatosValidos(
+            "Juan",
+            "juan@example.com",
+            "12345678909",
+            "Consulta",
+            "Hola, tengo una consulta sobre las habitaciones disponibles.",
+        )
+    })
+
     //Item 17
-    //   it("Validar campos requeridos", () => {
-    //     cy.get(".nav-link").eq(4).click();
-    //     cy.ValidarCamposObligatorios();
-    //   });
-});
+    it("Validar campos requeridos", () => {
+        cy.get(".nav-link").eq(4).click()
+        cy.ValidarCamposObligatorios()
+    })
+})
