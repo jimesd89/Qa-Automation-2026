@@ -215,20 +215,22 @@ describe("Test Shady Meadows", () => {
   });
 
   //Item 15
-  //   it("Acceder a amenities", () => {
-  //     cy.get(".nav-link").eq(2).click();
-  //   });
+  it("Acceder a amenities", () => {
+    cy.get(".nav-link").eq(2).click();
+  });
 
   //Item16
   it("Acceder a contact us", () => {
-    cy.get(".nav-link").eq(4).click();
-    cy.EnviarDatosValidos(
-      "Juan",
-      "juan@example.com",
-      "12345678909",
-      "Consulta",
-      "Hola, tengo una consulta sobre las habitaciones disponibles.",
-    );
+    cy.fixture("contactForm").then((data) => {
+      cy.get(".nav-link").eq(4).click();
+      cy.EnviarDatosValidos(
+        data.name,
+        data.email,
+        data.telefono,
+        data.subject,
+        data.message,
+      );
+    });
   });
 
   //Item 17
