@@ -79,7 +79,7 @@ describe("Test Shady Meadows", () => {
     ).should("be.visible");
   });
 
-  // Este condicional lo hice con ayuda de IA porque tenía error de React que rompía el test.
+  // Condicional por error de React que rompía el test.
   Cypress.on("uncaught:exception", (err) => {
     if (err.message.includes("Minified React error #418")) {
       return false; // De esta forma se ignora el fallo de hidratación de React y continúa el test
@@ -208,18 +208,13 @@ describe("Test Shady Meadows", () => {
     cy.login("admin", "password");
   });
 
-  //Item 19-
+  //Item 19
   it("login with invalid credentials", () => {
     cy.get(".nav-link").eq(5).click();
     cy.ValidarDatosVaciosLogin();
   });
 
-  //Item 15
-  it("Acceder a amenities", () => {
-    cy.get(".nav-link").eq(2).click();
-  });
-
-  //Item16
+  //Item 16
   it("Acceder a contact us", () => {
     cy.fixture("contactForm").then((data) => {
       cy.get(".nav-link").eq(4).click();

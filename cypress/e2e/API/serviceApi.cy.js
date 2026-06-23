@@ -1,4 +1,22 @@
 describe("Test de API - Restful Booker", () => {
+  it("Cargar pagina principal y verificar que se cargue correctamente", () => {
+    cy.intercept("GET", "https://automationintesting.online/").as(
+      "paginaPrincipal",
+    );
+    cy.visit("https://automationintesting.online/");
+    cy.wait("@paginaPrincipal").then((interception) => {
+      expect(interception.response.statusCode).to.equal(200);
+    });
+  });
+
+  it("Cargar rooms", () => {
+    cy.intercept("POST", "**/cdn-cgi/rum*").as("rooms");
+    cy.visit("https://automationintesting.online/");
+    cy.wait("@rooms").then((interception) => {
+      expect(interception.response.statusCode).to.equal(204);
+    });
+  });
+
   it("Encontrar segun fecha", () => {
     cy.request(
       "https://automationintesting.online/api/room?checkin=2021-06-19&checkout=2020-06-20",
