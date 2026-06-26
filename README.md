@@ -7,7 +7,7 @@ https://docs.google.com/spreadsheets/d/1SUNfEnjWzF3km3oV5slGwN5QI2sh9E2W/edit?us
 El Excel incluye 4 bugs reportados y el detalle de los casos de prueba automatizados. El resto de las incidencias se encuentran registradas en Trello.
 
 Integrantes:
-Andrea Guerrero: Anmaguedigmail.com
+Andrea Guerrero: Anmaguedi@gmail.com
 Atilio Maffini: maffiniatilio@gmail.com
 Jimena Palmero: jimepal99@gmail.com
 Maria Victoria Reyna: vickyreyna79@gmail.com
